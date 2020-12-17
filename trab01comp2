@@ -1,0 +1,183 @@
+# coding: UTF-8
+#
+#
+# A very simple fraction class.
+#
+# @author Maria Jose Villamizar
+# @since 17/12/2020
+# @see http://docs.python.org/library/fractions.html
+# @see http://docs.python.org/reference/datamodel.html#emulating-numeric-types
+# @see https://docs.python.org/2/library/operator.html
+#
+from __future__ import division
+import sys
+ 
+## mdc is a general use function, defined outside the class.
+#
+#  @param a first integer: numerator.
+#  @param b second integer: denominator.
+#  @return GCD: Greatest Common Divisor.
+#
+def mdc(a,b ):
+    """Greatest Common Divisor (Maximo divisor comum)."""
+    while b != 0:
+        resto = a % b
+        a = b
+        b = resto
+    return a
+
+## A simple class for creating fraction objects (rational numbers).
+#
+class Fracao:
+    ## Constructor.
+    #
+    #  @param num numerator.
+    #  @param den denominator
+    #
+    def __init__(self, num=1, den=1):
+        """Constructor"""
+
+        if ( den == 0 ): raise ValueError ("Zero denominator")
+
+        ### Numerator.
+        self.num = num
+        ### Denominator.
+        self.den = den
+
+        if self.den < 0:           # check for a negative denominator
+           self.num = -self.num    # change the sign of the numerator
+           self.den = -self.den
+        self.simplifica()          # simplify the fraction
+
+    ## Operator ==
+    #
+    def __eq__(self, f):
+        return # ....
+        
+    ## Operator +
+    #
+    def __add__(self, f):
+        # ....
+        return Fracao(num, den)      # a Fraction is built already simplified
+
+    ## Operador right side addition.
+    #
+    #  This method is only called if the left object does not have an __add__ method,
+    #  or that method does not know how to add the two objects
+    #  (which it flags by returning NotImplemented).
+    #
+    def __radd__(self, f):
+        return self + f
+        
+    ## Operator +=
+    #
+    def __iadd__(self, f):
+        # ....
+        return self.simplifica()
+        
+    ## Operator *
+    #
+    def __mul__(self, f):
+        # ....
+        return Fracao(num, den)
+
+    ## Operador right side multiplication.
+    #
+    #  This method is only called if the left object does not have a __mul__ method,
+    #  or that method does not know how to add the two objects
+    #  (which it flags by returning NotImplemented).
+    #
+    def __rmul__(self, f):
+        return self * f
+
+    ## Operator /
+    #
+    #  @return self / f when __future__.division is not in effect.
+    #
+    def __div__(self, f):
+        # ....
+        return Fracao(num, den)
+
+    ## Operator /
+    #
+    #  @return self / f when __future__.division is in effect.
+    #
+    def __truediv__(self, f):
+        # ....
+        return Fracao(num, den)
+
+    ## Operator //
+    #
+    #  @return self // f.
+    #
+    def __floordiv__(self, f):
+        # ....
+        return Fracao(num, den)
+
+        ## Operador right side integer division (python 2).
+    #
+    #  This method is only called if the left object does not have a __div__ method,
+    #  or that method does not know how to add the two objects
+    #  (which it flags by returning NotImplemented).
+    #
+    def __rdiv__(self, f):
+        return # ....
+
+    ## Operador right side float division (python 3).
+    #
+    #  This method is only called if the left object does not have a __truediv__ method,
+    #  or that method does not know how to add the two objects
+    #  (which it flags by returning NotImplemented).
+    #
+    def __rtruediv__(self, f):
+        return # ....
+
+    ## Operador right side integer division.
+    #
+    #  This method is only called if the left object does not have a __floordiv__ method,
+    #  or that method does not know how to add the two objects
+    #  (which it flags by returning NotImplemented).
+    #
+    def __rfloordiv__(self, f):
+        return # ....
+
+    ## Operator -
+    #
+    def __sub__(self, f):
+        # ....
+        return Fracao(num, den)
+
+    ## Operador right side subtraction.
+    #
+    #  This method is only called if the left object does not have a __sub__ method,
+    #  or that method does not know how to add the two objects
+    #  (which it flags by returning NotImplemented).
+    #
+    def __rsub__(self, f):
+        return # ....
+        
+    ## Operator -
+    #
+    def __neg__(self):
+        # ....
+        return Fracao(num, den)
+        
+    ## Controls how a fraction is printed.
+    #
+    #  @return a string: numerator/denominator, or
+    #          only the numerator, if the denominator is 1, after simplification, or
+    #          0, if the numerator is null.
+    def __str__(self):
+        return '' # ....
+
+    ## Simplifies this fraction, by dividing either the numerator
+    #  or the denominator by its gcd.
+    #
+    def simplifica(self):
+        max = 1
+        if self.num != 0:                   # assert Fracao != 0
+           max = mdc(self.num, self.den)    # find the greatest common divisor
+        if max > 1:                         # reduce this fraction!
+           self.num //= max
+           self.den //= max
+        return self
